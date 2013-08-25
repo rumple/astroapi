@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function getastro()
+{
+
+    function showMap(position) {
+      var xhReq = new XMLHttpRequest();
+      var xhReq2 = new XMLHttpRequest();
+      var lat;
+      var lon;
+      lat = position.coords.latitude;
+      lon = position.coords.longitude;
+      xhReq.open("GET", "/v0/sunrise/lat"+lat+"/lon"+lon, false);
+      xhReq.send(null);
+      var serverResponse = xhReq.responseText;
+      xhReq2.open("GET", "/v0/sunset/lat"+lat+"/lon"+lon, false);
+      xhReq2.send(null);
+      var serverResponse2 = xhReq2.responseText;
+      alert("Sunrise is at " + serverResponse + ". Sunset is at " + serverResponse2);
+    }
+
+ navigator.geolocation.getCurrentPosition(showMap);
+}
+</script>
+
+<style>
+  h1 {
+    margin: 1em 0px;
+    padding: 8px 15px;
+    background: #f8f8f8;
+    border-radius: 5px;
+    border: 1px solid #e5e5e5;
+    overflow-x: auto;
+    font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
+  }
+  h1,h2{
+    color: #222;
+  }
+  body{
+    font: 14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #777;
+    font-weight: 300;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50em
+  }
+  code{
+    font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
+    color: #333;
+    font-size: 12px;
+    margin: 1em 0px;
+    padding: 8px 15px;
+    background: #f8f8f8;
+    border-radius: 5px;
+    border: 1px solid #e5e5e5;
+    overflow-x: auto;
+
+    
+  }
+
+</style>
+
+</head>
+
+<body>
+<h1>astroapi.appspot.com</h1>
+
+<p>
+  <h2>What is this?</h2>
+  This is my weekend project to have a taste of <a
+    href="http://golang.org">Google Go</a>. It
+implements a simple API to find sunrise and sunset times for a given latitude
+and longitude in Go.  This API uses excellent <a
+  href="https://github.com/cpucycle/astrotime">astrotime</a> package to calculate sunrise and sunset
+times.
+</p>
+<p>
+  <h2>How does it work?</h2>
+It undestands URIs with following formats :
+<ul>
+  <li><code>GET
+      http://astroapi.appspot.com/v0/sunrise/lat[latitude]/lon[longitude]</code></li><br/>
+  <li><code>GET
+      http://astroapi.appspot.com/v0/sunset/lat[latitude]/lon[longitude]</code></li>
+</ul>
+</p><p>
+It returns time for the requested event (sunrise/sunset) as plain text in
+following format, "2006-01-02 15:04:05.999999999 -0700 MST". This format is
+chosen mainly because this is default format for Go time. In future, this
+might support different formats.
+</p>
+<p>
+  <h2>Examples</h2>
+<ul>
+  <li>This will give sunrise times at Washington Monument.</li>
+  <a href="/v0/sunrise/lat38.8895/lon77.0352">Sunrise at Washington Monument</a>
+  <li>This will show the sunrise and sunset times from where this site is being accessed.</li>
+  <a href="javascript:getastro()">Today's sunrise and sunset times</a>
+</ul>
+</p><p>
+<h2>Contact</h2>
+<a href="https://twitter.com/intent/tweet?screen_name=jimauthors&text=%23astroapi" class="twitter-mention-button" data-related="jimauthors">Tweet to @jimauthors</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</p>
+</body>
+</html>
+
